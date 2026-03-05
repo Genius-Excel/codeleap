@@ -1,12 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
-
 
 class Post(models.Model):
+    username = models.CharField(max_length=150)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title} by {self.author.username}"
+        return f"{self.title} by {self.username}"
