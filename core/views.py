@@ -40,10 +40,11 @@ def posts_collection(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["PATCH"])
+@api_view(["PATCH", "DELETE"])
 def post_update(request, post_id):
     """
     PATCH /careers/{id}/
+    DELETE /careers/{id}/
     """
 
     try:
@@ -54,10 +55,14 @@ def post_update(request, post_id):
             status=status.HTTP_404_NOT_FOUND
         )
 
-    serializer = PostUpdateSerializer(post, data=request.data, partial=True)
+    if request.method == "PATCH":
+        serializer = PostUpdateSerializer(post, data=request.data, partial=True)
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(PostSerializer(post).data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(PostSerializer(post).data)
 
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == "DELETE":
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
