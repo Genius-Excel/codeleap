@@ -17,7 +17,7 @@ from .serializers import PostSerializer, PostUpdateSerializer
 
 
 @api_view(["GET", "POST"])
-def posts_collection(request):
+def retrieve_and_create_posts(request):
     """
     This view handles both GET and POST requests for the collection of posts.
     GET /careers/ - Retrieve a list of all posts.
@@ -41,7 +41,7 @@ def posts_collection(request):
 
 
 @api_view(["PATCH", "DELETE"])
-def post_update(request, post_id):
+def update_or_delete_post(request, post_id):
     """
     PATCH /careers/{id}/
     DELETE /careers/{id}/
