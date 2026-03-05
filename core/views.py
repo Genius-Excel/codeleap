@@ -26,9 +26,9 @@ def posts_collection(request):
     """
 
     if request.method == "GET":
-        posts = Post.objects.all()
+        posts = Post.objects.all().filter().order_by("-created_datetime")
         serializer = PostSerializer(posts, many=True)
-        return Response({"results": serializer.data})
+        return Response(serializer.data)
 
     if request.method == "POST":
         serializer = PostSerializer(data=request.data)
