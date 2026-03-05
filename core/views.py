@@ -3,6 +3,6 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-def index(request):
-    return JsonResponse({"message": "Welcome to CodeLeap"})
+def health_check(request):
+    return JsonResponse({"message": "Health check successful!"})
 
