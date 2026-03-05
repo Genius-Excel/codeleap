@@ -73,12 +73,43 @@ WSGI_APPLICATION = 'codeleap.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DB_CONNECTION = config("DB_CONNECTION")
+
+if DB_CONNECTION == "sqlite":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / f"{config('DB_NAME', default='db')}.sqlite3",
+        }
     }
-}
+
+elif DB_CONNECTION == "postgres":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config("DB_NAME"),
+            'USER': config("DB_USER"),
+            'PASSWORD': config("DB_PASSWORD"),
+            'HOST': config("DB_HOST", default="localhost"),
+            'PORT': config("DB_PORT", default="5432"),
+        }
+    }
+
+elif DB_CONNECTION == "mysql":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config("DB_NAME"),
+            'USER': config("DB_USER"),
+            'PASSWORD': config("DB_PASSWORD"),
+            'HOST': config("DB_HOST", default="localhost"),
+            'PORT': config("DB_PORT", default="3306"),
+        }
+    }
+
+else:
+    raise ValueError("Unsupported DB_CONNECTION type. Use 'sqlite', 'postgres', or 'mysql'.")
+
 
 
 # Password validation
