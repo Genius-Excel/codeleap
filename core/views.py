@@ -3,17 +3,35 @@ from django.http import JsonResponse
 from .models import Post
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .serializers import PostSerializer, PostUpdateSerializer
+
+
+
+from django.http import JsonResponse
 
 def health_check(request):
+    """
+    Health check endpoint for service availability monitoring.
+
+    This endpoint is used to verify that the application is running and able
+    to respond to HTTP requests. It can be used by load balancers, monitoring
+    systems, or uptime checks.
+
+    Args:
+        request (HttpRequest): The incoming HTTP request object.
+
+    Returns:
+        JsonResponse: A JSON response indicating the service health status.
+
+    Response Example:
+        {
+            "message": "Health check successful!"
+        }
+
+    Status Codes:
+        200 OK: The service is running and reachable.
+    """
     return JsonResponse({"message": "Health check successful!"})
-
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-
-from .models import Post
-from .serializers import PostSerializer, PostUpdateSerializer
 
 
 @api_view(["GET", "POST"])
